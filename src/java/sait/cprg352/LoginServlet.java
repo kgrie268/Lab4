@@ -60,15 +60,16 @@ public class LoginServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String action = request.getParameter("action");
         //checks to sww if action is done and will display logged out message
-        if (action != null && action.equals("logout")) {
-            request.setAttribute("errorMessage", "Logged out");
-            request.setAttribute("userName", signOut);
-            session.removeAttribute("user");
+        if (session.getAttribute("user") != null) {
+            if (action != null && action.equals("logout")) {
+                request.setAttribute("errorMessage", "Logged out");
+                request.setAttribute("userName", signOut);
+                session.removeAttribute("user");
 
-            getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
-            return;
+                getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+                return;
+            }
         }
-
         if (session.getAttribute("user") != null) {
             response.sendRedirect("home");
 
